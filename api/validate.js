@@ -7,7 +7,7 @@ module.exports = (req, res) => {
     return res.status(400).json({ valid: false, error: "Missing license or device" });
   }
 
-  const filePath = path.join(__dirname, "..", "licenses.json");
+  const filePath = path.join(process.cwd(), "licenses.json");
   let licenses = JSON.parse(fs.readFileSync(filePath, "utf8"));
 
   let licenseEntry = licenses.find(l => l.key === license);
@@ -16,14 +16,10 @@ module.exports = (req, res) => {
     return res.status(403).json({ valid: false, error: "License not found" });
   }
 
-  if (licenseEntry.device && licenseEntry.device !== device) {
-    return res.status(403).json({ valid: false, error: "License bound to another device" });
-  }
-
-  if (!licenseEntry.device) {
-    licenseEntry.device = device;
-    fs.writeFileSync(filePath, JSON.stringify(licenses, null, 2));
-  }
+  // For now, ignore device binding to avoid writes
+  // if (licenseEntry.device && licenseEntry.device !== device) {
+  //   return res.status(403).json({ valid: false, error: "License bound to another device" });
+  // }
 
   return res.json({ valid: true });
 };

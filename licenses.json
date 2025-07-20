@@ -1,5 +1,3 @@
-[
-  { "key": "DMX-123-ABC", "device": null },
-  { "key": "DMX-456-XYZ", "device": null },
-  { "key": "DMX-789-DEF", "device": null }
-]
+const licenses = JSON.parse(
+  fs.readFileSync(path.join(process.cwd(), "licenses.json"), "utf8")
+);
